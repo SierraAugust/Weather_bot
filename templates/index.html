@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather Bot</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather Bot</h1>
+      <form method="POST">
+        <input type="text" name="city" placeholder="Enter city" required />
+        <div class="radio">
+          <label
+            ><input type="radio" name="choice" value="current" checked />
+            Current Weather</label
+          >
+          <label
+            ><input type="radio" name="choice" value="forecast" /> 3-Day
+            Forecast</label
+          >
+        </div>
+        <button type="submit">Get Weather</button>
+      </form>
+
+      {% if current %}
+      <div class="weather-box">
+        <h2>{{ current.location }}</h2>
+        <img src="{{ current.icon }}" alt="icon" />
+        <p>{{ current.temp }} - {{ current.condition }}</p>
+        <p>Wind: {{ current.wind }} | Humidity: {{ current.humidity }}</p>
+      </div>
+      {% endif %} {% if forecast %}
+      <div class="forecast-box">
+        <h2>{{ forecast.location }}</h2>
+        {% for day in forecast.forecasts %}
+        <div class="forecast-day">
+          <h3>{{ day.date }}</h3>
+          <img src="{{ day.icon }}" alt="icon" />
+          <p>{{ day.avg_temp }} - {{ day.condition }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
